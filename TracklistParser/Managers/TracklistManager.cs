@@ -28,12 +28,24 @@ namespace TracklistParser
                 _tagSpaceManager.CloseTagSpace();
         }
 
+        public void PrintTracklist()
+        {
+            for (int i = 0; i < Tracklist.Count; i++)
+            {
+                var track = Tracklist[i];
+                Console.WriteLine($"Track number: {i}");
+                foreach (var tag in track.Tags)
+                    Console.WriteLine($"\t{tag.Key}: {tag.Value}");
+                Console.WriteLine();
+            }
+        }
+
+        #region Constructor
         public TracklistManager(TagSpaceManager tagSpaceManager, RuntimeData runtimeData)
         {
             _tagSpaceManager = tagSpaceManager;
             Tracklist = runtimeData.Tracklist;
         }
-
-
+        #endregion
     }
 }

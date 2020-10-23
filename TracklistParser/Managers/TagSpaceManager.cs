@@ -13,24 +13,48 @@ namespace TracklistParser
             TagSpaces.Pop();
         }
 
+        #region OpenTagSpace
         public void OpenTagSpace(TagSpace newSpace)
         {
-            var prevTags = TagSpaces.Peek().Tags;
-            var newTags = newSpace.Tags;
-
-            foreach (var tag in prevTags) 
+            if (TagSpaces.Count > 0)
             {
-                if (!newTags.ContainsKey(tag.Key))
+                var prevTags = TagSpaces.Peek().Tags;
+                var newTags = newSpace.Tags;
+
+                foreach (var tag in prevTags)
                 {
-                    newTags.Add(tag.Key, tag.Value);
+                    if (!newTags.ContainsKey(tag.Key))
+                    {
+                        newTags.Add(tag.Key, tag.Value);
+                    }
                 }
             }
             TagSpaces.Push(newSpace);
         }
 
+        public void OpenTagSpace(Dictionary<string, string> tags) =>
+            OpenTagSpace(new TagSpace(tags));
+
+        public void OpenTagSpace() =>
+            OpenTagSpace(new Dictionary<string, string>());
+        #endregion
+
+        #region SetTag
+        public void SetTag(string tagName, string tagValue)
+        {
+            var tags = TagSpaces.Peek().Tags;
+            if (tags.ContainsKey(tagName))
+                tags[tagName] = tagValue;
+            else
+                tags.Add(tagName, tagValue);
+        }
+        #endregion
+
+        #region Constructor
         public TagSpaceManager(RuntimeData runtimeData)
         {
             TagSpaces = runtimeData.TagSpaces;
         }
+        #endregion
     }
 }
