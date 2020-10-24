@@ -1,0 +1,13 @@
+﻿<TagSpace>
+	<SetTag TagName="Album" TagValue="BroHater"/>
+
+	<SetStart Pattern="pattern1"/>
+	<SetEnd Pattern="pattern2"/>
+
+	<ForEachSplitBy>
+		<TagSpace>
+		<SetTagMatch TagName="Artist" TagPattern="pattern3"/>
+        <SetTagMatch TagName="Title" TagPattern="pattern4"/>
+		<AddTrack/>
+	<ForEachSplitBy/>
+<TagSpace/>

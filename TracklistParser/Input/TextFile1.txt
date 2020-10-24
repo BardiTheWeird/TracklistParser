@@ -7,7 +7,7 @@
 	<ForEachSplitBy>
 		<TagSpace>
 		<SetTagMatch TagName="Artist" TagPattern="(.+)(?=(\s\-\s))"/>
-        <SetTagMatch TagName="Title" TagPattern="(?<=(\s\-\s))(.+)")/>
+        <SetTagMatch TagName="Title" TagPattern="(?<=(\s\-\s))(.+)"/>
 		<AddTrack/>
 	<ForEachSplitBy/>
 <TagSpace/>
