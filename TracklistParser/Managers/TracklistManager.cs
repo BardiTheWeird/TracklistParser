@@ -17,10 +17,20 @@ namespace TracklistParser
         {
             var tags = _tagSpaceManager.TagSpaces.Peek().Tags;
 
-            if (!tags.ContainsKey("StartTime"))
-                throw new Exception("Tracks need to have a StartTime tag");
+            try
+            {
+                if (!tags.ContainsKey("StartTime"))
+                    throw new Exception("Tracks need to have a StartTime tag");
+            }
+            catch
+            {
+                Console.WriteLine("###Tracks DO need to have a StartTime tag, but I let you pass for now (:");
+            }
 
-            Tracklist.Add(new Track(tags["StartTime"], 
+            tags.TryGetValue("StartTime", out var startTime);
+            startTime = startTime ?? "Time undefined";
+
+            Tracklist.Add(new Track(startTime, 
                 tags.Where(x => x.Key != "StartTime")
                 .ToDictionary(x => x.Key, x => x.Value)));
 
@@ -33,7 +43,7 @@ namespace TracklistParser
             for (int i = 0; i < Tracklist.Count; i++)
             {
                 var track = Tracklist[i];
-                Console.WriteLine($"Track number: {i}");
+                Console.WriteLine($"Track number: {i + 1}");
                 foreach (var tag in track.Tags)
                     Console.WriteLine($"\t{tag.Key}: {tag.Value}");
                 Console.WriteLine();
