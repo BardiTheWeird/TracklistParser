@@ -1,0 +1,10 @@
+﻿Name;IsControl;IsClosed;CommandName;Property 1;Property 2;Property 3
+TagSpace;False;False;OpenTagSpace;-;-;-
+TagSpace;False;True;CloseTagSpace;-;-;-
+SetTag;False;True;SetTag;TagName;TagValue;-
+SetTagMatch;False;True;SetTagMatch;TagName;Pattern;-
+SetStart;False;True;SetStart;Pattern;IsInclusive;-
+SetEnd;False;True;SetEnd;Pattern;IsInclusive;-
+AddTrack;False;True;AddTrack;-;-;-
+ForEachSplitBy;True;False;ForEachSplitBy;Pattern;-;-
+ForEachSplitBy;True;True;-;-;-;-

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TracklistParser.Commands
 {
-    class AddTrack : ICommand
+    public class AddTrack : ICommand
     {
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Autofac;
+using Autofac.Features.ResolveAnything;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using TracklistParser.Behaviors;
 using TracklistParser.Commands;
+using TracklistParser.Config;
 using TracklistParser.Managers;
 using TracklistParser.Modules;
 using TracklistParser.Parser;
@@ -16,6 +18,7 @@ namespace TracklistParser
         {
             var builder = new ContainerBuilder();
 
+            builder.RegisterInstance(new CommandSpecificationManager(@"..\..\..\Config\CommandSpecificationCommaDelim.csv"));
             builder.RegisterInstance(new RuntimeData());
 
             builder.RegisterModule<ManagersModule>();
@@ -58,6 +61,11 @@ namespace TracklistParser
             container.Resolve<CommandManager>().Execute(commandList);
 
             container.Resolve<TracklistManager>().PrintTracklist();
+
+            var specifications = container.Resolve<CommandSpecificationManager>();
+
+            Console.WriteLine(typeof(Program).Assembly.GetName().Name);
+
         }
     }
 }

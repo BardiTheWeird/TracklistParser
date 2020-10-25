@@ -53,10 +53,10 @@ namespace XUnitTestProject1
             var input = "<SetTagMatch TagName=\"Artist\" TagPattern=\"" + @"(.+)(?= (\s\-\s))" + "\"/>";
             var expectedName = "SetTagMatch";
             var expectedClosed = true;
-            var expectedProperties = new List<CommandProperty> 
+            var expectedProperties = new List<ParsedCommandProperty> 
             { 
-                new CommandProperty("TagName", "Artist"),
-                new CommandProperty("TagPattern", @"(.+)(?= (\s\-\s))")
+                new ParsedCommandProperty("TagName", "Artist"),
+                new ParsedCommandProperty("TagPattern", @"(.+)(?= (\s\-\s))")
             };
 
             var parsed = SpracheParser.Command.Parse(input);

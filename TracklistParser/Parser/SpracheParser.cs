@@ -7,52 +7,52 @@ using System.Text;
 
 namespace TracklistParser.Parser
 {
-    public class CommandProperty
+    public class ParsedCommandProperty
     {
         public string Name { get; set; }
         public string Value { get; set; }
 
-        public CommandProperty(string name, string value)
+        public ParsedCommandProperty(string name, string value)
         {
             Name = name;
             Value = value;
         }
     }
 
-    public class Command
+    public class ParsedCommand
     {
         public string Name { get; set; }
         public bool IsClosed { get; set; }
-        public List<CommandProperty> Properties { get; set; }
+        public List<ParsedCommandProperty> Properties { get; set; }
 
         #region Constructors
-        public Command(string name)
+        public ParsedCommand(string name)
         {
             Name = name;
         }
 
-        public Command(string name, bool isClosed) : this(name)
+        public ParsedCommand(string name, bool isClosed) : this(name)
         {
             IsClosed = isClosed;
         }
 
-        public Command(string name, List<CommandProperty> properties) : this(name)
+        public ParsedCommand(string name, List<ParsedCommandProperty> properties) : this(name)
         {
             Properties = properties;
         }
 
-        public Command(string name, bool isClosed, List<CommandProperty> properties) : this(name, isClosed)
+        public ParsedCommand(string name, bool isClosed, List<ParsedCommandProperty> properties) : this(name, isClosed)
         {
             Properties = properties;
         }
         #endregion
     }
 
-    public class CommandList
+    public class ParsedCommandList
     {
-        public List<Command> Commands { get; set; }
+        public List<ParsedCommand> Commands { get; set; }
 
-        public CommandList(List<Command> commands)
+        public ParsedCommandList(List<ParsedCommand> commands)
         {
             Commands = commands;
         }
@@ -81,25 +81,25 @@ namespace TracklistParser.Parser
              from close in Parse.Char('"')
              select content).Token();
 
-        public static readonly Parser<CommandProperty> CommandProperty =
+        public static readonly Parser<ParsedCommandProperty> CommandProperty =
              from name in PropertyName
              from equality in Parse.Char('=')
              from value in PropertyValue
-             select new CommandProperty(name, value);
+             select new ParsedCommandProperty(name, value);
 
-        public static readonly Parser<Command> Command =
+        public static readonly Parser<ParsedCommand> Command =
             from trailingIn in Trailing
             from open in Parse.Char('<').Once()
             from name in PropertyName.Once()
             from properties in CommandProperty.Many()
             from close in Parse.String("/>").Or(Parse.String(">")).Once()
             from trailingOut in Trailing
-            select new Command(name.First(), string.Concat(close.First()) == "/>",
+            select new ParsedCommand(name.First(), string.Concat(close.First()) == "/>",
                 properties.ToList());
 
-        public static readonly Parser<CommandList> Commands =
+        public static readonly Parser<ParsedCommandList> Commands =
             //from commands in Command.Until(Parse.String("#END#"))
             from commands in Command.Many()
-            select new CommandList(commands.ToList());
+            select new ParsedCommandList(commands.ToList());
     }
 }
