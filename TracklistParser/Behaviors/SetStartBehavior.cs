@@ -12,8 +12,12 @@ namespace TracklistParser.Behaviors
         {
             var command = commandIn as SetStart;
 
-            var matchStart = Regex.Match(scope.CurString, command.Pattern).Index;
-            scope.CurString = scope.CurString.Substring(matchStart);
+            var matchStart = Regex.Match(scope.CurString, command.Pattern);
+            var startIndex = matchStart.Index;
+            if (!command.IsInclusive)
+                startIndex += matchStart.Value.Length;
+
+            scope.CurString = scope.CurString.Substring(startIndex);
         }
     }
 }

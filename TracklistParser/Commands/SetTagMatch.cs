@@ -7,12 +7,16 @@ namespace TracklistParser.Commands
     class SetTagMatch : ICommand
     {
         public string TagName { get; set; }
-        public string TagValuePattern { get; set; }
+        public string Pattern { get; set; }
 
-        public SetTagMatch(string tagName, string tagValuePattern)
+        public SetTagMatch(string tagName, string pattern)
         {
             TagName = tagName;
-            TagValuePattern = tagValuePattern;
+            Pattern = pattern;
+        }
+
+        public SetTagMatch()
+        {
         }
     }
 }

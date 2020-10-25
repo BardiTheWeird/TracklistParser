@@ -16,7 +16,7 @@ namespace TracklistParser.Behaviors
         {
             var command = commandIn as SetTagMatch;
             var curString = scope.CurString;
-            var valuePattern = command.TagValuePattern;
+            var valuePattern = command.Pattern;
 
             var match = Regex.Match(curString, valuePattern).Value;
             _tagSpaceManager.SetTag(command.TagName, match);

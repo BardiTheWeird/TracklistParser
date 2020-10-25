@@ -16,5 +16,9 @@ namespace TracklistParser.Commands
             TagName = tagName;
             TagValue = tagValue;
         }
+
+        public SetTag()
+        {
+        }
     }
 }

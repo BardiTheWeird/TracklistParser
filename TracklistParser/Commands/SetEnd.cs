@@ -7,10 +7,16 @@ namespace TracklistParser.Commands
     class SetEnd : ICommand
     {
         public string Pattern { get; set; }
+        public bool IsInclusive { get; set; }
 
-        public SetEnd(string pattern)
+        public SetEnd(string pattern, bool isInclusive)
         {
             Pattern = pattern;
+            IsInclusive = isInclusive;
+        }
+
+        public SetEnd()
+        {
         }
     }
 }

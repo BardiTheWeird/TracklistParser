@@ -14,5 +14,10 @@ namespace TracklistParser.Commands
             Pattern = pattern;
             Commands = commands;
         }
+
+        public ForEachSplitBy()
+        {
+            Commands = new List<ICommand>();
+        }
     }
 }

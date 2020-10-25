@@ -46,6 +46,7 @@ namespace TracklistParser
                 Console.WriteLine($"Track number: {i + 1}");
                 foreach (var tag in track.Tags)
                     Console.WriteLine($"\t{tag.Key}: {tag.Value}");
+                Console.WriteLine($"\tStartTime: {track.StartTime}");
                 Console.WriteLine();
             }
         }

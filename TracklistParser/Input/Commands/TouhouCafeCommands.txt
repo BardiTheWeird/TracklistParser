@@ -1,0 +1,17 @@
+﻿<TagSpace>
+	<SetTag TagName="Artist" TagValue="Various Artists"/>
+	<SetTag TagName="Genre" TagValue="Touhou Jazz Cover, Wryyyyy!"/>
+
+	<SetStart Pattern="Album 1" IsInclusive="True"/>
+	<ForEachSplitBy Pattern="\n\n">
+		<SetTagMatch Pattern="(.+)(?=\n)" TagName="Album"/>
+		<SetStart Pattern="\n" IsInclusive="False"/>
+
+		<ForEachSplitBy Pattern="\n">
+			<TrackSpace>
+				<SetTagMatch Pattern="(((\d+):)+)(\d+)" TagName="StartTime"/>
+				<SetTagMatch TagName="Title" Pattern="(?<=(\s\-\s))(.+)"/>
+			<TrackSpace/>
+		<ForEachSplitBy/>
+	<ForEachSplitBy/>
+<TagSpace/>

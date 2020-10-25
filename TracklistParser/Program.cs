@@ -24,6 +24,8 @@ namespace TracklistParser
             builder.RegisterModule<ManagersModule>();
             builder.RegisterModule<BehaviorsModule>();
 
+            builder.RegisterType<CommandParser>().AsSelf().SingleInstance();
+
             return builder.Build();
         }
 
@@ -31,41 +33,25 @@ namespace TracklistParser
         {
             var container = CreateContainer();
 
-            string filepath1 = @"..\..\..\Input\testInput1.txt";
-            string filepath2 = @"..\..\..\Input\testInput2.txt";
+            string touhouCafeTracklist = @"..\..\..\Input\Tracklists\TouhouCafeTracklist.txt";
+            string touhouCafeCommands = @"..\..\..\Input\Commands\TouhouCafeCommands.txt";
 
-            string inputText = File.ReadAllText(filepath2);
+            string inputText = File.ReadAllText(touhouCafeTracklist);
             inputText = inputText.Replace("\r\n", "\n");
 
-            var commandList = new List<ICommand>
-            {
-                new OpenTagSpace(),
-                new SetTag("Album", "Bro Heiter!"),
+            string commandInput = File.ReadAllText(touhouCafeCommands);
 
 
-                new SetStart(@"(?<=\n)\w"),
-                new SetEnd(@"(?<=t)\n\n"),
+            var commandList = container.Resolve<CommandParser>().ParseCommandList(commandInput);
 
-                new ForEachSplitBy(@"\n", new List<ICommand>
-                {
-                    new OpenTagSpace(),
-                    new SetTagMatch("Artist", @"(.+)(?=(\s\-\s))"),
-                    new SetTagMatch("Title", @"(?<=(\s\-\s))(.+)"),
-                    new AddTrack()
-                }),
+            var commandManager = container.Resolve<CommandManager>();
+            commandManager.SetScope(new Scope(inputText));
+            commandManager.Execute(commandList);
 
-                new CloseTagSpace()
-            };
+            var tracklistManager = container.Resolve<TracklistManager>();
+            tracklistManager.PrintTracklist();
 
-            container.Resolve<CommandManager>().SetScope(new Scope(inputText));
-            container.Resolve<CommandManager>().Execute(commandList);
-
-            container.Resolve<TracklistManager>().PrintTracklist();
-
-            var specifications = container.Resolve<CommandSpecificationManager>();
-
-            Console.WriteLine(typeof(Program).Assembly.GetName().Name);
-
+            Console.WriteLine("Now I'm scared");
         }
     }
 }

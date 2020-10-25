@@ -70,6 +70,7 @@ namespace TracklistParser.Config
         public List<CommandSpecification> GetCommandSpecifications(List<ParsedCommand> parsedCommands)
         {
             var specificationList = new List<CommandSpecification>(parsedCommands.Count);
+            var errorMessages = new StringBuilder();
 
             for (int i = 0; i < parsedCommands.Count; i++)
             {
@@ -82,29 +83,32 @@ namespace TracklistParser.Config
                 {
                     if (!_specifiedCommands.TryGetValue((command.Name, command.IsClosed), out var specification1))
                     {
-                        throw new CommandSpecificationDiscrepancyException($"No command with name {command.Name} found");
+                        errorMessages.Append($"No command with name {command.Name} found\n");
                     }
                     else
                     {
-                        throw new CommandSpecificationDiscrepancyException($"Command with name {command.Name} has no specification with IsClosed={command.IsClosed}");
+                        errorMessages.Append($"Command with name {command.Name} has no specification with IsClosed={command.IsClosed}\n");
                     }
+                    break;
                 }
 
                 // Check if properties are ok
                 if (command.Properties.Count != specification.Properties.Count)
                 {
-                    throw new CommandSpecificationDiscrepancyException($"Command has {command.Properties.Count} properties, " +
-                        $"while specification entails {specification.Properties.Count}");
+                    errorMessages.Append($"Command {command.Name} (IsClosed={command.IsClosed}) has {command.Properties.Count} properties, " +
+                        $"while specification entails {specification.Properties.Count}\n");
+                    break;
                 }
                 foreach (var property in command.Properties)
                 {
                     if (!specification.Properties.Contains(property.Name))
                     {
-                        throw new CommandSpecificationDiscrepancyException($"{command.Name} specification has no {property.Name} property");
+                        errorMessages.Append($"{command.Name} specification has no {property.Name} property\n");
                     }
                 }
 
-                specificationList.Add(specification);
+                if (errorMessages.Length == 0)
+                    specificationList.Add(specification);
             }
 
             // Check if control commands are closed
@@ -123,7 +127,8 @@ namespace TracklistParser.Config
                     }
                     else
                     {
-                        throw new CommandSpecificationDiscrepancyException($"No opening {control.Name} command for the closing {control.Name} command respective scope");
+                        errorMessages.Append($"No opening {control.Name} command for the closing {control.Name} command respective scope\n");
+                        break;
                     }
                 }
             }
@@ -131,14 +136,41 @@ namespace TracklistParser.Config
             if (openControlCommands.Count > 0)
             {
                 var commandNames = string.Join(", ", openControlCommands.Select(x => x.Name));
-                throw new CommandSpecificationDiscrepancyException($"No closing commands for such control commands: {commandNames}");
+                errorMessages.Append($"No closing commands for such control commands: {commandNames}\n");
             }
+
+            if (errorMessages.Length > 0)
+                throw new CommandSpecificationDiscrepancyException(errorMessages.ToString());
 
             return specificationList;
         }
         #endregion
 
         #region SetDictionary
+        void ValidateICommandProperties()
+        {
+            var messages = new StringBuilder();
+            foreach (var keyValuePair in _specifiedCommands)
+            {
+                var specification = keyValuePair.Value;
+                var type = specification.CommandType;
+                foreach (var property in specification.Properties)
+                {
+                    if (type.GetProperty(property) == null)
+                        messages.Append($"{type} has no {property} property\n");
+                }
+                if (specification.IsControl && !specification.IsClosed)
+                {
+                    if (type.GetProperty("Commands") == null)
+                        messages.Append($"{type} has no Commands property\n");
+                }
+            }
+            if (messages.Length > 0)
+            {
+                throw new CommandSpecificationDiscrepancyException("\n" + messages.ToString());
+            }
+        }
+
         void SetDictionary(string csvFilePath)
         {
             var commandTable = new DataTable();
@@ -199,6 +231,7 @@ namespace TracklistParser.Config
         {
             _specifiedCommands = new Dictionary<(string, bool), CommandSpecification>();
             SetDictionary(csvFilePath);
+            ValidateICommandProperties();
         }
         #endregion
     }

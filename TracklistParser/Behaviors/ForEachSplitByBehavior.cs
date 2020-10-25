@@ -26,7 +26,7 @@ namespace TracklistParser.Behaviors
 
             foreach (var str in Regex.Split(scope.CurString, forEachCommand.Pattern))
             {
-                var newScope = new Scope(scope);
+                var newScope = new Scope(str);
                 foreach(var command in forEachCommand.Commands)
                     _commandManager.Execute(command, newScope);
             }

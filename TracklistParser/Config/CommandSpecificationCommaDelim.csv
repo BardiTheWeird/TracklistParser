@@ -8,3 +8,5 @@ SetEnd,False,True,SetEnd,Pattern,IsInclusive,-
 AddTrack,False,True,AddTrack,-,-,-
 ForEachSplitBy,True,False,ForEachSplitBy,Pattern,-,-
 ForEachSplitBy,True,True,-,-,-,-
+TrackSpace,False,False,OpenTagSpace,-,-,-
+TrackSpace,False,True,AddTrack,-,-,-
