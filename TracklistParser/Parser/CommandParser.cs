@@ -41,7 +41,8 @@ namespace TracklistParser.Parser
             }
         }
 
-        List<ICommand> GetCommands(List<ParsedCommand> parsedCommands, List<CommandSpecification> specifications, ScopeIntWrapper scopeWrapper = null, int ? lo = null, int? hi = null)
+        List<ICommand> GetCommands(List<ParsedCommand> parsedCommands, List<CommandSpecification> specifications, 
+            ScopeIntWrapper scopeWrapper = null, int ? lo = null, int? hi = null)
         {
             scopeWrapper = scopeWrapper ?? new ScopeIntWrapper(0);
             lo = lo ?? 0;
@@ -83,7 +84,6 @@ namespace TracklistParser.Parser
                 {
                     var closingIndex = specifications.FindIndex(scopeWrapper.i, x => x.Name == specifications[scopeWrapper.i].Name && x.IsClosed);
                     var propertyInfo = type.GetProperty("Commands");
-                    //scopeWrapper.i++;
                     propertyInfo.SetValue(command, GetCommands(parsedCommands, specifications, scopeWrapper, scopeWrapper.i + 1, closingIndex));
                 }
                 commands.Add((ICommand)command);

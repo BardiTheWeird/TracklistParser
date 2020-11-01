@@ -98,7 +98,6 @@ namespace TracklistParser.Parser
                 properties.ToList());
 
         public static readonly Parser<ParsedCommandList> Commands =
-            //from commands in Command.Until(Parse.String("#END#"))
             from commands in Command.Many()
             select new ParsedCommandList(commands.ToList());
     }

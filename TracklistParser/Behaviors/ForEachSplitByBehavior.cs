@@ -15,10 +15,6 @@ namespace TracklistParser.Behaviors
         private readonly CommandManager _commandManager;
         #endregion
 
-        #region fields
-        private readonly IIndex<Type, ICommandBehavior> _behaviorIndex;
-        #endregion
-
         // Maybe use the command manager thing, lol
         public void Execute(ICommand commandIn, Scope scope)
         {
@@ -33,10 +29,9 @@ namespace TracklistParser.Behaviors
         }
 
         #region Constructor
-        public ForEachSplitByBehavior(CommandManager commandManager, IIndex<Type, ICommandBehavior> behaviorIndex)
+        public ForEachSplitByBehavior(CommandManager commandManager)
         {
             _commandManager = commandManager;
-            _behaviorIndex = behaviorIndex;
         }
         #endregion
     }
