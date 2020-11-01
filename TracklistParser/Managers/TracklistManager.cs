@@ -11,28 +11,38 @@ namespace TracklistParser
         private readonly TagSpaceManager _tagSpaceManager;
         #endregion
 
+        #region Exceptions
+        class TrackIndexException : Exception
+        {
+            public TrackIndexException()
+            {
+
+            }
+
+            public TrackIndexException(string message)
+                : base($"TrackIndexException: {message}")
+            {
+
+            }
+        }
+        #endregion
+
         public List<Track> Tracklist { get; set; }
+        private Index curTrackIndex { get; set; }
+
+        public void SetCurIndex(Index index) =>
+            curTrackIndex = index;
 
         public void AddTrack(bool closeTagSpace = true)
         {
+            if (curTrackIndex == null)
+                throw new TrackIndexException("Can't add track without StartTime");
+
             var tags = _tagSpaceManager.TagSpaces.Peek().Tags;
 
-            try
-            {
-                if (!tags.ContainsKey("StartTime"))
-                    throw new Exception("Tracks need to have a StartTime tag");
-            }
-            catch
-            {
-                Console.WriteLine("###Tracks DO need to have a StartTime tag, but I let you pass for now (:");
-            }
+            Tracklist.Add(new Track(curTrackIndex, tags));
 
-            tags.TryGetValue("StartTime", out var startTime);
-            startTime = startTime ?? "Time undefined";
-
-            Tracklist.Add(new Track(startTime, 
-                tags.Where(x => x.Key != "StartTime")
-                .ToDictionary(x => x.Key, x => x.Value)));
+            curTrackIndex = null;
 
             if (closeTagSpace)
                 _tagSpaceManager.CloseTagSpace();
@@ -56,6 +66,7 @@ namespace TracklistParser
         {
             _tagSpaceManager = tagSpaceManager;
             Tracklist = runtimeData.Tracklist;
+            curTrackIndex = null;
         }
         #endregion
     }

@@ -10,4 +10,4 @@ ForEachSplitBy;True;False;ForEachSplitBy;Pattern;-;-
 ForEachSplitBy;True;True;-;-;-;-
 TrackSpace;False;False;OpenTagSpace;-;-;-
 TrackSpace;False;True;AddTrack;-;-;-
-SetStartTime;False;True;SetStartTime;Pattern;TimePattern;-
+SetStartTime;False;True;SetStartTime;Pattern;TimeFormat;-

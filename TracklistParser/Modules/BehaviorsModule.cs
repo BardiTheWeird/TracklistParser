@@ -19,6 +19,7 @@ namespace TracklistParser.Modules
             builder.RegisterType<SetStartBehavior>().Keyed<ICommandBehavior>(typeof(SetStart));
             builder.RegisterType<SetTagBehavior>().Keyed<ICommandBehavior>(typeof(SetTag));
             builder.RegisterType<SetTagMatchBehavior>().Keyed<ICommandBehavior>(typeof(SetTagMatch));
+            builder.RegisterType<SetStartTimeBehavior>().Keyed<ICommandBehavior>(typeof(SetStartTime));
         }
     }
 }

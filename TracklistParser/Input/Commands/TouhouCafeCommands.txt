@@ -9,7 +9,7 @@
 
 		<ForEachSplitBy Pattern="\n">
 			<TrackSpace>
-				<SetTagMatch Pattern="(((\d+):)+)(\d+)" TagName="StartTime"/>
+				<SetStartTime Pattern="(((\d+):)+)(\d+)" TimeFormat="h:m:s|m:s"/>
 				<SetTagMatch TagName="Title" Pattern="(?<=(\s\-\s))(.+)"/>
 			<TrackSpace/>
 		<ForEachSplitBy/>
