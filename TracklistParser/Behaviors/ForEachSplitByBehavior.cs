@@ -16,7 +16,7 @@ namespace TracklistParser.Behaviors
         #endregion
 
         // Maybe use the command manager thing, lol
-        public void Execute(ICommand commandIn, Scope scope)
+        public void Execute(IParserCommand commandIn, Scope scope)
         {
             var forEachCommand = commandIn as ForEachSplitBy;
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TracklistParser.Commands
 {
-    class SetTag : ICommand
+    class SetTag : IParserCommand
     {
         public string TagName { get; set; }
         public string TagValue { get; set; }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TracklistParser.Commands
 {
-    class SetEnd : ICommand
+    class SetEnd : IParserCommand
     {
         public string Pattern { get; set; }
         public bool IsInclusive { get; set; }

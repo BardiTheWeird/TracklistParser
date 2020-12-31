@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TracklistParser
 {
-    class TagSpace
+    public class TagSpace
     {
         public Dictionary<string, string> Tags { get; set; }
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TracklistParser
 {
-    class TagSpaceManager
+    public class TagSpaceManager
     {
         public Stack<TagSpace> TagSpaces { get; set; }
 

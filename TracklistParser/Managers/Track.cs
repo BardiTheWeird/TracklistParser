@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace TracklistParser
 {
-    class Track
+    public class Track : INotifyPropertyChanged
     {
         public Index StartTime { get; set; }
         // public string StartTime { get; set; }
@@ -15,14 +16,18 @@ namespace TracklistParser
             StartTime = startTime;
             Tags = tags;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
-    class Index
+    public class Index : INotifyPropertyChanged
     {
         public int Hours { get; set; }
         public int Minutes { get; set; }
         public int Seconds { get; set; }
         public int Frames { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Index(int hours, int minutes, int seconds, int frames)
         {

@@ -7,6 +7,6 @@ namespace TracklistParser.Behaviors
 {
     interface ICommandBehavior
     {
-        public void Execute(ICommand commandIn, Scope scope);
+        public void Execute(IParserCommand commandIn, Scope scope);
     }
 }

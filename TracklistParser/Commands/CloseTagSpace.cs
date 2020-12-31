@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TracklistParser.Commands
 {
-    class CloseTagSpace : ICommand
+    class CloseTagSpace : IParserCommand
     {
 
     }

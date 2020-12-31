@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TracklistParser.Commands
 {
-    class SetStartTime : ICommand
+    class SetStartTime : IParserCommand
     {
         public string Pattern { get; set; }
         public string TimeFormat { get; set; }

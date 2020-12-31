@@ -11,7 +11,7 @@ namespace TracklistParser.Behaviors
         private readonly TagSpaceManager _tagSpaceManager;
         #endregion
 
-        public void Execute(ICommand commandIn, Scope scope) =>
+        public void Execute(IParserCommand commandIn, Scope scope) =>
             _tagSpaceManager.OpenTagSpace();
 
         public OpenTagSpaceBehavior(TagSpaceManager tagSpaceManager)

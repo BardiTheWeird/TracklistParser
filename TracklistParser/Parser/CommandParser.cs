@@ -8,13 +8,13 @@ using TracklistParser.Config;
 
 namespace TracklistParser.Parser
 {
-    class CommandParser
+    public class CommandParser
     {
         #region Dependencies
         private readonly CommandSpecificationManager _commandSpecificationManager;
         #endregion
 
-        public List<ICommand> ParseCommandList(string input)
+        public List<IParserCommand> ParseCommandList(string input)
         {
             var parsedCommands = SpracheParser.Commands.Parse(input).Commands;
             List<CommandSpecification> specifications;
@@ -41,14 +41,14 @@ namespace TracklistParser.Parser
             }
         }
 
-        List<ICommand> GetCommands(List<ParsedCommand> parsedCommands, List<CommandSpecification> specifications, 
+        List<IParserCommand> GetCommands(List<ParsedCommand> parsedCommands, List<CommandSpecification> specifications, 
             ScopeIntWrapper scopeWrapper = null, int ? lo = null, int? hi = null)
         {
             scopeWrapper = scopeWrapper ?? new ScopeIntWrapper(0);
             lo = lo ?? 0;
             hi = hi ?? parsedCommands.Count;
 
-            var commands = new List<ICommand>();
+            var commands = new List<IParserCommand>();
 
             if (hi == lo)
                 return commands;
@@ -86,7 +86,7 @@ namespace TracklistParser.Parser
                     var propertyInfo = type.GetProperty("Commands");
                     propertyInfo.SetValue(command, GetCommands(parsedCommands, specifications, scopeWrapper, scopeWrapper.i + 1, closingIndex));
                 }
-                commands.Add((ICommand)command);
+                commands.Add((IParserCommand)command);
             }
 
             return commands;

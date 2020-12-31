@@ -32,7 +32,7 @@ namespace TracklistParser.Config
         }
     }
 
-    class CommandSpecificationManager
+    public class CommandSpecificationManager
     {
         #region Exceptions
         class CommandSpecificationReadingException : Exception

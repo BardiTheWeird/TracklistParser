@@ -9,7 +9,7 @@ using TracklistParser.Commands;
 
 namespace TracklistParser.Managers
 {
-    class CommandManager
+    public class CommandManager
     {
         #region fields
         private readonly IIndex<Type, ICommandBehavior> _behaviorIndex;
@@ -25,13 +25,13 @@ namespace TracklistParser.Managers
         #endregion
 
         #region Execute Command(s)
-        public void Execute(List<ICommand> commands, Scope scope = null)
+        public void Execute(List<IParserCommand> commands, Scope scope = null)
         {
             foreach (var command in commands)
                 Execute(command, scope);
         }
 
-        public void Execute(ICommand command, Scope scope = null)
+        public void Execute(IParserCommand command, Scope scope = null)
         {
             scope = scope ?? GlobalScope;
 

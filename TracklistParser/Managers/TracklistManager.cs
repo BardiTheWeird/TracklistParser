@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
 namespace TracklistParser
 {
-    class TracklistManager
+    public class TracklistManager
     {
         #region Dependencies
         private readonly TagSpaceManager _tagSpaceManager;
@@ -27,7 +28,7 @@ namespace TracklistParser
         }
         #endregion
 
-        public List<Track> Tracklist { get; set; }
+        public ObservableCollection<Track> Tracklist { get; set; }
         private Index curTrackIndex { get; set; }
 
         public void SetCurIndex(Index index) =>

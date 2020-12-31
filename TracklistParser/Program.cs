@@ -12,13 +12,13 @@ using TracklistParser.Parser;
 
 namespace TracklistParser
 {
-    class Program
+    public class Program
     {
-        static IContainer CreateContainer()
+        public static IContainer CreateContainer()
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterInstance(new CommandSpecificationManager(@"..\..\..\Config\CommandSpecificationCommaDelim.csv"));
+            builder.RegisterInstance(new CommandSpecificationManager(@"..\..\..\..\TracklistParser\Config\CommandSpecificationCommaDelim.csv"));
             builder.RegisterInstance(new RuntimeData());
 
             builder.RegisterModule<ManagersModule>();

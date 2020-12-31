@@ -4,12 +4,12 @@ using System.Text;
 
 namespace TracklistParser.Commands
 {
-    class ForEachSplitBy : ICommand
+    class ForEachSplitBy : IParserCommand
     {
         public string Pattern { get; set; }
-        public List<ICommand> Commands { get; set; }
+        public List<IParserCommand> Commands { get; set; }
 
-        public ForEachSplitBy(string pattern, List<ICommand> commands)
+        public ForEachSplitBy(string pattern, List<IParserCommand> commands)
         {
             Pattern = pattern;
             Commands = commands;
@@ -17,7 +17,7 @@ namespace TracklistParser.Commands
 
         public ForEachSplitBy()
         {
-            Commands = new List<ICommand>();
+            Commands = new List<IParserCommand>();
         }
     }
 }

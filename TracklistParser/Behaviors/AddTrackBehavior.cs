@@ -11,7 +11,7 @@ namespace TracklistParser.Behaviors
         private readonly TracklistManager _tracklistManager;
         #endregion
 
-        public void Execute(ICommand commandIn, Scope scope) =>
+        public void Execute(IParserCommand commandIn, Scope scope) =>
             _tracklistManager.AddTrack();
 
         public AddTrackBehavior(TracklistManager tracklistManager)
