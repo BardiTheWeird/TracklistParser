@@ -9,7 +9,7 @@ using TracklistParser.Parser;
 
 namespace TracklistParser.Config
 {
-    sealed class CommandSpecification
+    public sealed class CommandSpecification
     {
         public string Name { get; set; }
         public bool IsClosed { get; set; }

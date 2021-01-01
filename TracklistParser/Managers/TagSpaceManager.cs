@@ -13,6 +13,9 @@ namespace TracklistParser
             TagSpaces.Pop();
         }
 
+        public void Clear() =>
+            TagSpaces.Clear();
+
         #region OpenTagSpace
         public void OpenTagSpace(TagSpace newSpace)
         {

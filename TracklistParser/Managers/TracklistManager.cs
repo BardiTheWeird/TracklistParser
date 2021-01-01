@@ -28,7 +28,7 @@ namespace TracklistParser
         }
         #endregion
 
-        public ObservableCollection<Track> Tracklist { get; set; }
+        public List<Track> Tracklist { get; set; }
         private Index curTrackIndex { get; set; }
 
         public void SetCurIndex(Index index) =>
@@ -60,6 +60,12 @@ namespace TracklistParser
                 Console.WriteLine($"\tStartTime: {track.StartTime}");
                 Console.WriteLine();
             }
+        }
+
+        public void Clear()
+        {
+            Tracklist.Clear();
+            _tagSpaceManager.Clear();
         }
 
         #region Constructor

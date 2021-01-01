@@ -7,6 +7,40 @@
         mc:Ignorable="d"
         xmlns:customcontrols="clr-namespace:Interface.CustomControls"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <local:HasAncestorConverter x:Key="HasAncestorConverter" />
+
+        <Style x:Key="DefaultStyle" TargetType="Control">
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+        <Style x:Key="DefaultTextBox" TargetType="TextBox" BasedOn="{StaticResource DefaultStyle}">
+            <Setter Property="AcceptsReturn" Value="True"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        </Style>
+        <Style TargetType="customcontrols:ScrollingTextBox" BasedOn="{StaticResource DefaultTextBox}">
+            <Setter Property="IsReadOnly" Value="True"/>
+        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource DefaultStyle}"/>
+        <Style TargetType="ListView" BasedOn="{StaticResource DefaultStyle}"/>
+        <Style x:Key="IOStrings" TargetType="TextBlock">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, 
+                                        Converter={StaticResource HasAncestorConverter},
+                                        ConverterParameter={x:Type ListView}}"
+                             Value="True">
+                    <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
@@ -25,49 +59,57 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Margin="10"
-            Text="{Binding TracklistString, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap">
+        <TextBox Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"
+                 Style="{StaticResource DefaultTextBox}"
+                 Text="{Binding TracklistString, UpdateSourceTrigger=PropertyChanged}">
         </TextBox>
 
-        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="10"
-            Text="{Binding ParserCode, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap">
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+                 Style="{StaticResource DefaultTextBox}"
+                 Text="{Binding ParserCode, UpdateSourceTrigger=PropertyChanged}" >
         </TextBox>
 
-        <customcontrols:ScrollingTextBox Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="10"
-                                         TextWrapping="Wrap" IsReadOnly="True"
+        <customcontrols:ScrollingTextBox Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
                                          Text="{Binding ErrorMessage}">
         </customcontrols:ScrollingTextBox>
 
-        <Button Grid.Row="1" Grid.Column="2" Margin="10"
+        <Button Grid.Row="1" Grid.Column="2"
                 Command="{Binding ParseTracklist}" Content="Parse">
         </Button>
 
-        <ListView Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Margin="10"
-                  ItemsSource="{Binding ParsedTracks}">
+        <ListView x:Name="TrackListView"
+            Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2"
+            ItemsSource="{Binding ParsedTracks}">
             <ListView.View>
                 <GridView>
-                    <!--<GridViewColumn Header="#" DisplayMemberBinding="{Binding}"/>-->
-                    <GridViewColumn Header="StartTime" DisplayMemberBinding="{Binding StartTime}"/>
+                    <GridViewColumn Width="30" Header="#" DisplayMemberBinding="{Binding TrackNumber}"/>
+                    <GridViewColumn Width="80" Header="Start Time" DisplayMemberBinding="{Binding StartTime}"/>
+                    <GridViewColumn Width="90" Header="Title" DisplayMemberBinding="{Binding Title}"/>
+                    <GridViewColumn Width="90" Header="Artist" DisplayMemberBinding="{Binding Artist}"/>
+                    <GridViewColumn Width="90" Header="Album" DisplayMemberBinding="{Binding Album}"/>
+                    <GridViewColumn Width="45" Header="Year" DisplayMemberBinding="{Binding Year}"/>
+                    <GridViewColumn Width="125" Header="Genre" DisplayMemberBinding="{Binding Genre}"/>
+                    <GridViewColumn Width="125" Header="Other Tags" DisplayMemberBinding="{Binding OtherTags}"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <TextBlock Grid.Row="1" Grid.Column="3" Margin="10"
-                   VerticalAlignment="Center">
+        <TextBlock Grid.Row="1" Grid.Column="3"
+                   Style="{StaticResource IOStrings}">
             Input path
         </TextBlock>
         
-        <TextBlock Grid.Row="2" Grid.Column="3" Margin="10"
-                   VerticalAlignment="Center">
+        <TextBlock Grid.Row="2" Grid.Column="3"
+                   Style="{StaticResource IOStrings}">
             Output path
         </TextBlock>
 
-        <Button Grid.Row="1" Grid.Column="5" Margin="10"
+        <Button Grid.Row="1" Grid.Column="5"
                 Command="{Binding SetInputAudioPath}">
             Set Input
         </Button>  
         
-        <Button Grid.Row="2" Grid.Column="5" Margin="10"
+        <Button Grid.Row="2" Grid.Column="5"
                 Command="{Binding SetOutputPath}">
             Set Output
         </Button>

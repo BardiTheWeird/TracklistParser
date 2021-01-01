@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TracklistParser.Behaviors
 {
-    class Scope
+    public class Scope
     {
         public string CurString { get; set; }
 

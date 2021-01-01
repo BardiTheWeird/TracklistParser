@@ -12,7 +12,7 @@ namespace TracklistParser.Managers
     public class CommandManager
     {
         #region fields
-        private readonly IIndex<Type, ICommandBehavior> _behaviorIndex;
+        public IIndex<Type, ICommandBehavior> _behaviorIndex;
         #endregion
 
         #region Properties
@@ -45,10 +45,8 @@ namespace TracklistParser.Managers
         #endregion
 
         #region Constructor
-        public CommandManager(IIndex<Type, ICommandBehavior> index)
-        {
+        public CommandManager(IIndex<Type, ICommandBehavior> index) =>
             _behaviorIndex = index;
-        }
         #endregion
     }
 }
